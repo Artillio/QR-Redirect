@@ -1,0 +1,19 @@
+﻿@page "/qrgenerator"
+@using QRCoder;
+@using System.IO;
+@using System.Drawing.Imaging;
+@using System.Drawing
+
+
+@code {
+    protected override Task OnInitializedAsync()
+    {
+        QRCodeGenerator qrGenerator = new QRCodeGenerator();
+        QRCodeData qrCodeData = qrGenerator.CreateQrCode("The text which should be encoded.", QRCodeGenerator.ECCLevel.Q);
+        QRCode qrCode = new QRCode(qrCodeData);
+        Bitmap qrCodeImage = qrCode.GetGraphic(20);
+        return base.OnInitializedAsync();
+    }
+
+
+}
