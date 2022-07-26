@@ -1,13 +1,18 @@
-﻿@page "/redirect"
+﻿@page "/libro-100/{url}"
+@using QR_Redirect.Data
 @inject NavigationManager NavigationManager
+@inject HttpClient HttpClient
 
 <h3>@Url</h3>
 
 @code {
 
     [Parameter]
-    [SupplyParameterFromQuery]
+    //[SupplyParameterFromQuery]
     public string? Url { get; set; }
+
+    private List<FromToRedirect> fromToRedirects;
+    private string baseUrl = "https://go.stilescout.it/libro-100/";
 
     protected override async Task OnInitializedAsync()
     {
@@ -15,17 +20,22 @@
             NavigationManager.NavigateTo("Error",true); //URL VUOTO
         else
         {
+            baseUrl += Url;
+
+            fromToRedirects = await HttpClient.GetFromJsonAsync<List<FromToRedirect>>("FromToRedirect.json");
+
+            var redirect = fromToRedirects.Find(x => x.UrlFrom == baseUrl);
+
             Uri uriResult;
-            bool result = Uri.TryCreate(Url, UriKind.Absolute, out uriResult) 
+            bool result = Uri.TryCreate(redirect.UrlTo, UriKind.Absolute, out uriResult) 
 			    && (uriResult.Scheme == Uri.UriSchemeHttp || uriResult.Scheme == Uri.UriSchemeHttps);
 
             if(result)
-                NavigationManager.NavigateTo(Url, true);
+                NavigationManager.NavigateTo(redirect.UrlTo, true);
             else
                 NavigationManager.NavigateTo("Error",true); //NOT VALID URL
         }
         
     }
-
 
 }
