@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.2.32630.192
+VisualStudioVersion = 17.9.34728.123
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QR-Redirect", "QR-Redirect\QR-Redirect.csproj", "{13DD43B5-98A7-435A-A474-FC327CB020FD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QR-Redirect", "QR-Redirect\QR-Redirect.csproj", "{F319FA1B-79D1-4EB6-A562-625EF728C981}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,15 +11,15 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{13DD43B5-98A7-435A-A474-FC327CB020FD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{13DD43B5-98A7-435A-A474-FC327CB020FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{13DD43B5-98A7-435A-A474-FC327CB020FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{13DD43B5-98A7-435A-A474-FC327CB020FD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F319FA1B-79D1-4EB6-A562-625EF728C981}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F319FA1B-79D1-4EB6-A562-625EF728C981}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F319FA1B-79D1-4EB6-A562-625EF728C981}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F319FA1B-79D1-4EB6-A562-625EF728C981}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {601083B5-AE8F-483C-A064-4E86CED6B6D7}
+		SolutionGuid = {01AE5B7F-BE66-4C95-9E17-A6269A0997B8}
 	EndGlobalSection
 EndGlobal

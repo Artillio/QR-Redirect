@@ -1,0 +1,47 @@
+﻿@page "/fetchdata"
+@using QR_Redirect.Data
+@using System.Text.Json
+@inject IWebHostEnvironment Environment
+
+<PageTitle>Link Redirect</PageTitle>
+
+@if (links == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>UrlFrom</th>
+                <th>UrlTo</th>
+                <th>QRCodeString</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var link in links)
+            {
+                <tr>
+                    <td>@link.UrlFrom</td>
+                    <td>@link.UrlTo</td>
+                    <td><img src="@link.QRCodeString" style="width:300px;height:300px;" /></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private List<FromToRedirect>? links;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var filePath = Path.Combine(Environment.WebRootPath, "FromToRedirect.json");
+        if (File.Exists(filePath))
+        {
+            var jsonText = await File.ReadAllTextAsync(filePath);
+            links = JsonSerializer.Deserialize<List<FromToRedirect>>(jsonText);
+        }
+    }
+}

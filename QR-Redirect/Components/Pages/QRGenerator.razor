@@ -1,0 +1,68 @@
+﻿@page "/qrgenerator"
+@using QRCoder;
+@using System.IO;
+@using System.Drawing;
+@using System.Drawing.Imaging;
+
+<input type="text" @bind="Url" style="width:1000px;" />
+
+<br />
+<br />
+
+<button class="btn btn-primary" @onclick="@GenerateQRCode">Genera QR</button>
+<button class="btn btn-primary" @onclick="@GenerateSVGQRCode">Genera SVG QR</button>
+
+<br />
+<br />
+
+@* <p>@strQRCode</p> *@
+
+<br />
+<br />
+
+<img src="@strQRCode" style="width:300px;height:300px;" />
+
+
+@code {
+
+    string Url { get; set; } = "";
+    string strQRCode { get; set; } = "";
+    string styleCss { get; set; } = "";
+
+    public void GenerateQRCode()
+    {
+        strQRCode = "";
+        if (!string.IsNullOrEmpty(Url))
+        {
+            QRCodeGenerator qrGenerator = new QRCodeGenerator();
+            QRCodeData qrCodeData = qrGenerator.CreateQrCode(Url, QRCodeGenerator.ECCLevel.Q);
+            PngByteQRCode qrCode = new PngByteQRCode(qrCodeData);
+            byte[] qrCodeAsPngByteArr = qrCode.GetGraphic(20);
+
+            using (var ms = new MemoryStream(qrCodeAsPngByteArr))
+            {
+                strQRCode = "data:image/png;base64," + Convert.ToBase64String(ms.ToArray());
+            }
+
+            styleCss = "width:300px;height:300px;";
+        }
+
+    }
+
+    public void GenerateSVGQRCode()
+    {
+        strQRCode = "";
+        if (!string.IsNullOrEmpty(Url))
+        {
+            using (MemoryStream ms = new MemoryStream())
+            {
+                QRCodeGenerator qrGenerator = new QRCodeGenerator();
+                QRCodeData qrCodeData = qrGenerator.CreateQrCode(Url, QRCodeGenerator.ECCLevel.Q);
+                SvgQRCode qrCode = new SvgQRCode(qrCodeData);
+                strQRCode = qrCode.GetGraphic(20);
+                styleCss = "";
+            }
+        }
+
+    }
+}

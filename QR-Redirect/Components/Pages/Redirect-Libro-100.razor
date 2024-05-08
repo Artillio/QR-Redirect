@@ -1,0 +1,53 @@
+﻿@page "/libro-100/{url}"
+@using QR_Redirect.Data
+@inject NavigationManager NavigationManager
+@using System.Text.Json
+@inject IWebHostEnvironment Environment
+
+<h3>@Url</h3>
+
+@code {
+
+    [Parameter]
+    public string? Url { get; set; }
+
+    private List<FromToRedirect>? fromToRedirects;
+    private string baseUrl = "https://go.stilescout.it/libro-100/";
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (string.IsNullOrWhiteSpace(Url) || string.IsNullOrEmpty(Url))
+            NavigationManager.NavigateTo("Error",true); //URL VUOTO
+        else
+        {
+            baseUrl += Url;
+
+            var filePath = Path.Combine(Environment.WebRootPath, "FromToRedirect.json");
+            if (File.Exists(filePath))
+            {
+                var jsonText = await File.ReadAllTextAsync(filePath);
+                fromToRedirects = JsonSerializer.Deserialize<List<FromToRedirect>>(jsonText);
+
+                if (fromToRedirects is null)
+                    NavigationManager.NavigateTo("Error", true); //ASSOCIAZIONE NON TROVATA
+
+                var redirect = fromToRedirects.Find(x => x.UrlFrom == baseUrl);
+
+                Uri uriResult;
+                bool result = Uri.TryCreate(redirect.UrlTo, UriKind.Absolute, out uriResult)
+                    && (uriResult.Scheme == Uri.UriSchemeHttp || uriResult.Scheme == Uri.UriSchemeHttps);
+
+                if (result)
+                    NavigationManager.NavigateTo(redirect.UrlTo, true);
+                else
+                    NavigationManager.NavigateTo("Error", true); //NOT VALID URL
+            }
+            else
+            {
+                NavigationManager.NavigateTo("Error", true); //NOT VALID URL
+            }
+        }
+        
+    }
+
+}

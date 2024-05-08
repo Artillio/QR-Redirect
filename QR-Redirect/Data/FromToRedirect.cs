@@ -1,4 +1,6 @@
-﻿namespace QR_Redirect.Data
+﻿using QRCoder;
+
+namespace QR_Redirect.Data
 {
     public class FromToRedirect
     {
